@@ -12,12 +12,16 @@ unsigned int freq;
 char * db_server;
 unsigned int port;
 char * db_name;
-char * u_name;
+char * db_uname;
 char * passwd;
 
 
 public:
+   InputHandler();
+   ~InputHandler();
    static int usage();
    void setFreq(unsigned int);
    unsigned int getFreq();
+   /* Returns -ve on failure*/
+   int getParameters(int, char**);
 };

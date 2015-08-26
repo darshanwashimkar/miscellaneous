@@ -6,13 +6,17 @@
  *
  */
 
-#include <iostream>
-#include <getopt.h>
+#include <stdlib.h> 
 #include "input-handler.hpp"
 
 int main(int argc, char* argv[]){
 
+InputHandler *input =  new InputHandler();
 
+if(input->getParameters(argc, argv) < 0){
+   delete input;
+   return(EXIT_FAILURE);
+}
 
-return(0);
+return(EXIT_SUCCESS);
 }
