@@ -9,6 +9,10 @@
 #include <stdlib.h> 
 #include "input-handler.hpp"
 
+#ifndef _DOMAIN_STAT_MANAGER_HPP
+#include "domain-stat-manager.hpp"
+#endif
+
 int main(int argc, char* argv[]){
 
 InputHandler *input =  new InputHandler();
@@ -17,6 +21,17 @@ if(input->getParameters(argc, argv) < 0){
    delete input;
    return(EXIT_FAILURE);
 }
+
+
+/* ------------------------------- */
+input->printParameters();
+/* ------------------------------- */
+
+/* seeding rand */
+srand(time(0));
+
+StatManager *stat = new StatManager(input);
+stat->run();
 
 return(EXIT_SUCCESS);
 }

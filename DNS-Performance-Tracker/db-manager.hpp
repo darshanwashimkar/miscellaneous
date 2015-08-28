@@ -6,6 +6,9 @@
  *
  */
 
+#define _DB_MANAGER_HPP
+#include <mysql++.h>
+
 class DBManager {
 
 };

@@ -6,22 +6,39 @@
  *
  */
 
+#define _INPUT_HANDLER_HPP
+#include <iostream>
+#include <getopt.h>
+#include <string.h>
+
 class InputHandler {
 
 unsigned int freq;
 char * db_server;
 unsigned int port;
 char * db_name;
-char * db_uname;
+char * db_user;
 char * passwd;
-
+unsigned int iter;
 
 public:
    InputHandler();
    ~InputHandler();
    static int usage();
-   void setFreq(unsigned int);
+   /* getters */
    unsigned int getFreq();
-   /* Returns -ve on failure*/
+   char * getDbServer();
+   unsigned int getPort();
+   char * getDbName();
+   char * getDbUser();
+   char * getPassword();
+   unsigned int getIteration();
+
+   /* Returns -ve if something is wrong */
    int getParameters(int, char**);
+
+//---------- delete below method after completing tool -------
+   void printParameters();
+//------------------------------------------------------------
+
 };
