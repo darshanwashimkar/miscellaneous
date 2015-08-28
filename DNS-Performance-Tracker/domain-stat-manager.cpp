@@ -27,5 +27,7 @@ StatManager::~StatManager(){
 
 void StatManager::run(){
    std::string str = "google.com";
-   std::cout<<qm->genRandomURL(str.c_str())<<std::endl;
+   for(int i = 0; i < 100; i++ )
+      std::cout<<qm->queryDomain(str)<<std::endl;
+
 }

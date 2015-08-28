@@ -28,6 +28,7 @@ InputHandler::~InputHandler(){
 int InputHandler::usage(){
    std::cout<<"DNS Performance Tracker"<<std::endl;
    std::cout<<"Usage: dpt [OPTIONS]";
+   std::cout<<"frequency need to be +ve";
 }
 
 int InputHandler::getParameters(int argc, char** argv){
@@ -80,6 +81,12 @@ int InputHandler::getParameters(int argc, char** argv){
          usage();
          return(-1);
       }
+
+      if(freq < 1 ) {
+         usage();
+         return(-1);
+      }
+
    }
 
    return(0);
