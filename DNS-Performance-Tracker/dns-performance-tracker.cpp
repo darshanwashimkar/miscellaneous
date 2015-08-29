@@ -31,7 +31,7 @@ input->printParameters();
 srand(time(0));
 
 StatManager *stat = new StatManager(input);
-stat->run();
+stat->run(input->getFreq());
 
 return(EXIT_SUCCESS);
 }

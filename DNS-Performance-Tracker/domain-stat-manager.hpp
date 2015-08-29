@@ -9,6 +9,9 @@
 #define _DOMAIN_STAT_MANAGER_HPP
 #include<vector>
 #include<string>
+#include <limits.h>
+#include <unistd.h>
+#include <boost/thread.hpp>
 
 #ifndef _INPUT_HANDLER_HPP
 #include "input-handler.hpp"
@@ -24,11 +27,14 @@
 
 class StatManager {
    std::vector<std::string> top_sites;
+   unsigned int iter_rem;
    QueryManager *qm;
    DBManager *dbm;
    public:
    StatManager(InputHandler*);
    ~StatManager();
-   void run();
+   void run(unsigned int);
+   void runIteration();
+   void recordQueryStat(std::string &);
 
 };

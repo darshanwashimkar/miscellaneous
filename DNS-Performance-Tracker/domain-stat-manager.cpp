@@ -13,6 +13,9 @@ StatManager::StatManager(InputHandler *input){
                              "youtube.com", "yahoo.com", "live.com", 
                          "wikipedia.org", "baidu.com", "blogger.com", 
                                              "msn.com", "qq.com"});
+   if((iter_rem = input->getIteration()) == 0){
+      iter_rem = UINT_MAX;
+   }      
 
    qm = new QueryManager();
    dbm = new DBManager();
@@ -25,9 +28,31 @@ StatManager::~StatManager(){
 }
 
 
-void StatManager::run(){
-   std::string str = "google.com";
-   for(int i = 0; i < 100; i++ )
-      std::cout<<qm->queryDomain(str)<<std::endl;
+void StatManager::recordQueryStat(std::string &url){
+   std::cout<<qm->queryDomain(url)<<std::endl;
+}
+
+void StatManager::runIteration(){
+   
+   for(int i = 0; i < top_sites.size(); i++){
+      recordQueryStat(top_sites.at(i));
+   }
+}
+
+
+void StatManager::run(unsigned int freq){
+
+   unsigned int wait_time = (1000000/freq); // microseconds
+   boost::thread_group tg;
+
+   while(iter_rem--){
+      std::cout<<"-"<<iter_rem<<"-";
+      boost::thread(boost::bind(&StatManager::runIteration, this)).detach();
+      //tg.create_thread(boost::bind(&StatManager::runIteration, this));
+      usleep(wait_time);
+   }
+   tg.join_all();
+
+   std::cout<<"\nI'm Done"<<std::endl;
 
 }

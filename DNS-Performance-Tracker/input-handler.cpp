@@ -9,7 +9,7 @@
 #include "input-handler.hpp"
 
 InputHandler::InputHandler(){
-   freq = 30;
+   freq = 10;
    db_server = NULL;
    port = 0;
    db_name = NULL;
