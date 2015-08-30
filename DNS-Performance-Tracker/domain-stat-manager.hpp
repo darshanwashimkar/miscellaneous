@@ -12,6 +12,7 @@
 #include <limits.h>
 #include <unistd.h>
 #include <boost/thread.hpp>
+#include <mutex>
 
 #ifndef _INPUT_HANDLER_HPP
 #include "input-handler.hpp"
@@ -30,11 +31,14 @@ class StatManager {
    unsigned int iter_rem;
    QueryManager *qm;
    DBManager *dbm;
+   std::mutex db_mutex;
+
    public:
    StatManager(InputHandler*);
    ~StatManager();
    void run(unsigned int);
    void runIteration();
    void recordQueryStat(std::string &);
-
+   /* Welford's online algorithm to find standard deviation variance */
+   long double stdDev(uint32_t value, double &mean, int &n, double& M2);
 };

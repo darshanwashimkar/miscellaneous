@@ -49,8 +49,9 @@ DBManager::DBManager(InputHandler *input){
       ss << "(";
       ss << "domain varchar(255) NOT NULL,";
       ss << "domain_id int NOT NULL,";
-      ss << "avg_q_time decimal(10,3),";
-      ss << "std_dev_q decimal(10,3),";
+      ss << "avg_q_time decimal(19,4),";
+      ss << "std_dev_q decimal(19,4),";
+      ss << "m2 decimal(19,4),";
       ss << "q_count BIGINT,";
       ss << "first_q_time BIGINT,";
       ss << "last_q_time BIGINT,";
@@ -85,14 +86,15 @@ DBManager::DBManager(InputHandler *input){
 DBManager::~DBManager(){
 }
 
-bool DBManager::insertToStat(std::string &domain, int &id, double avg_q_time,
-                             double std_dev_q, unsigned long int count, 
-                             unsigned long int first_q_time, 
-                             unsigned long int last_q_time){
+bool DBManager::insertToStat(std::string &domain, int &id, long double avg_q_time,
+                             long double std_dev_q, long double m2,
+                             unsigned long long count,
+                             unsigned long long first_q_time, 
+                             unsigned long long last_q_time){
    try{
       ss.str("");
       ss << "INSERT INTO stat (domain, domain_id, avg_q_time, std_dev_q,";
-      ss << "q_count, first_q_time, last_q_time)";
+      ss << "m2, q_count, first_q_time, last_q_time)";
       ss << "VALUES ('";
       ss << domain;
       ss << "','";
@@ -101,6 +103,8 @@ bool DBManager::insertToStat(std::string &domain, int &id, double avg_q_time,
       ss << avg_q_time;
       ss << "','";
       ss << std_dev_q;
+      ss << "','";
+      ss << m2;
       ss << "','";
       ss << count;
       ss << "','";
@@ -122,3 +126,24 @@ bool DBManager::insertToStat(std::string &domain, int &id, double avg_q_time,
 
    return(true);
 }
+
+
+void DBManager::readStatTable(int id, long double &avg, long double &m2, long long &count){
+   try{
+      ss.str("");
+      ss << "select * from stat where domain_id =";
+      ss << id;
+      ss <<";";
+      mysqlpp::Query query = conn.query(ss.str());
+      mysqlpp::StoreQueryResult res = query.store();
+      if (!result) {
+         throw std::string("Unable to get values from \'stat\' table");
+      }
+   }
+   catch (const mysqlpp::Exception& er) {
+      // Catch-all for any other MySQL++ exceptions
+      std::cerr << "Error: " << er.what() << std::endl;
+      exit(EXIT_FAILURE);
+   }
+}
+

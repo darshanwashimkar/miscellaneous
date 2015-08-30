@@ -22,7 +22,7 @@ StatManager::StatManager(InputHandler *input){
 
    /* Initialize database 'stat' table */
    for(int i = 0; i < top_sites.size(); i++){
-      dbm->insertToStat(top_sites.at(i), i, 0.0, 0.0, 0, 0, 0);
+      dbm->insertToStat(top_sites.at(i), i, 0.0, 0.0, 0.0, 0, 0, 0);
    }   
 }
 
@@ -34,7 +34,13 @@ StatManager::~StatManager(){
 
 
 void StatManager::recordQueryStat(std::string &url){
-   std::cout<<qm->queryDomain(url)<<std::endl;
+   uint32_t query_time = qm->queryDomain(url);
+   
+   /* Critical section start from here */
+   {
+      std::lock_guard<std::mutex> lock(db_mutex);
+      
+   }
 }
 
 void StatManager::runIteration(){
@@ -61,3 +67,18 @@ void StatManager::run(unsigned int freq){
    std::cout<<"\nI'm Done"<<std::endl;
 
 }
+
+
+long double StatManager::stdDev(uint32_t value, double &mean, int &n, double& M2){
+    n++;
+    double delta = value - mean;
+    mean = mean + delta/n;
+    M2 = M2 + delta*(value - mean);
+    
+    if (n < 2)
+        return(0);
+    else
+        return (M2 / (n - 1));
+}
+
+
