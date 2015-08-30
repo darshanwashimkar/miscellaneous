@@ -23,10 +23,12 @@ uint32_t QueryManager::queryDomain(std::string domain_str){
    ldns_rdf *domain;
    ldns_pkt *p;
    ldns_status s;
-   
-   domain = ldns_dname_new_frm_str(genRandomURL(domain_str));
+
+   std::string new_url = genRandomURL(domain_str);
+
+   domain = ldns_dname_new_frm_str(new_url.c_str());
    if (!domain) {
-      std::cerr<<"Unable to create ldns_rdf for "<<domain_str<<std::endl;
+      std::cerr<<"Unable to create ldns_rdf for "<<domain_str<<" - "<<new_url<<std::endl;
       /* Log error and return */
       return(0);
    }
@@ -61,20 +63,21 @@ uint32_t QueryManager::queryDomain(std::string domain_str){
    return(query_time);
 }
 
-const char* QueryManager::genRandomURL(std::string url){
+std::string QueryManager::genRandomURL(std::string& url){
    if(url == "")
       return(NULL);
 
-   std::stringstream ss;
+   std::stringstream s_stream;
+   s_stream.str("");
    static const char alphanum[] = "0123456789"
                                   "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-                                   "abcdefghijklmnopqrstuvwxyz";   
-   for (int i = 0; i < 16; i++) {
-      ss << (alphanum[rand() % (sizeof(alphanum) - 1)]);
+                                   "abcdefghijklmnopqrstuvwxyz";
+   for (int i = 0; i < 8; i++) {
+      s_stream << (alphanum[rand() % (sizeof(alphanum) - 1)]);
    }
-   
-   ss << url;
-   return(ss.str().c_str());
+   s_stream <<".";
+   s_stream << url;
+   return(s_stream.str());
 }
 
 

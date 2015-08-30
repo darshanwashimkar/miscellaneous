@@ -18,7 +18,6 @@ class QueryManager {
 public:
    QueryManager();
    ~QueryManager();
-   const char * genRandomURL(std::string);
-   uint32_t queryDomain(std::string);
-   
+   std::string genRandomURL(std::string&);
+   uint32_t queryDomain(std::string);   
 };

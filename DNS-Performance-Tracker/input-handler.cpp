@@ -140,7 +140,7 @@ unsigned int InputHandler::getIteration(){
 void InputHandler::printParameters(){
    std::cout<<"Frequency: "<<freq<<std::endl;
    if(db_server != NULL)
-      std::cout<<"Database Server IP: "<<db_server<<std::endl;
+      std::cout<<"Database Server: "<<db_server<<std::endl;
    std::cout<<"Port: "<<port<<std::endl;
    if(db_name != NULL)
       std::cout<<"Database name: "<<db_name<<std::endl;

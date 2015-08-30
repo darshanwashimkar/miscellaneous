@@ -13,6 +13,8 @@
 #include <unistd.h>
 #include <boost/thread.hpp>
 #include <mutex>
+#include <cmath>
+#include <atomic>
 
 #ifndef _INPUT_HANDLER_HPP
 #include "input-handler.hpp"
@@ -31,14 +33,24 @@ class StatManager {
    unsigned int iter_rem;
    QueryManager *qm;
    DBManager *dbm;
+
+   double avg;
+   double m2;
+   double std_dev;
+   unsigned long long count;
+   unsigned long long first_q_time;
+   unsigned long long last_q_time;
+
    std::mutex db_mutex;
+   std::atomic<unsigned int> no_threads;
 
    public:
    StatManager(InputHandler*);
    ~StatManager();
    void run(unsigned int);
    void runIteration();
-   void recordQueryStat(std::string &);
+   void recordQueryStat(std::string &, int);
    /* Welford's online algorithm to find standard deviation variance */
-   long double stdDev(uint32_t value, double &mean, int &n, double& M2);
+   double stdDev(uint32_t value, double &mean, unsigned long long &n, double& M2);
+   unsigned long long findCurrentUTCTimeMilliseconds();
 };
