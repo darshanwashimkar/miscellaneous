@@ -18,7 +18,12 @@ StatManager::StatManager(InputHandler *input){
    }      
 
    qm = new QueryManager();
-   dbm = new DBManager();
+   dbm = new DBManager(input);
+
+   /* Initialize database 'stat' table */
+   for(int i = 0; i < top_sites.size(); i++){
+      dbm->insertToStat(top_sites.at(i), i, 0.0, 0.0, 0, 0, 0);
+   }   
 }
 
 StatManager::~StatManager(){
@@ -43,7 +48,7 @@ void StatManager::runIteration(){
 void StatManager::run(unsigned int freq){
 
    unsigned int wait_time = (1000000/freq); // microseconds
-   boost::thread_group tg;
+//   boost::thread_group tg;
 
    while(iter_rem--){
       std::cout<<"-"<<iter_rem<<"-";
@@ -51,7 +56,7 @@ void StatManager::run(unsigned int freq){
       //tg.create_thread(boost::bind(&StatManager::runIteration, this));
       usleep(wait_time);
    }
-   tg.join_all();
+//   tg.join_all();
 
    std::cout<<"\nI'm Done"<<std::endl;
 

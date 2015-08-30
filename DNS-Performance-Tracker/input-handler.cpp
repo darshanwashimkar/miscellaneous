@@ -10,9 +10,9 @@
 
 InputHandler::InputHandler(){
    freq = 10;
-   db_server = NULL;
-   port = 0;
-   db_name = NULL;
+   db_server = strdup("localhost");
+   port = 3306;
+   db_name = strdup("DNSPerformance");
    db_user = NULL;
    passwd = NULL;
    iter = -1; // infinite number of iterations
@@ -27,8 +27,14 @@ InputHandler::~InputHandler(){
 
 int InputHandler::usage(){
    std::cout<<"DNS Performance Tracker"<<std::endl;
-   std::cout<<"Usage: dpt [OPTIONS]";
-   std::cout<<"frequency need to be +ve";
+   std::cout<<"Usage: dpt [OPTIONS]"<<std::endl;
+   std::cout<<"\t -f, --frequency\tFrequency of DNS Query [per second][Default: 10]"<<std::endl;
+   std::cout<<"\t -s, --server\t\tAddress of mysql database server [Default: localhost]"<<std::endl;
+   std::cout<<"\t -p, --port\t\tPort number of mysql database server [Default: 3306]"<<std::endl;
+   std::cout<<"\t -d, --database\t\tMysql database name [Default: DNSPerformance]"<<std::endl;
+   std::cout<<"\t -u, --user\t\tUser name for accessing mysql database [Mandatory]"<<std::endl;
+   std::cout<<"\t -w, --password\t\tPassword for accessing mysql database [Mandatory]"<<std::endl;
+   std::cout<<"\t -i, --iteration\tMaximum number of iterations [default: infinite iterations)"<<std::endl;
 }
 
 int InputHandler::getParameters(int argc, char** argv){
@@ -40,7 +46,7 @@ int InputHandler::getParameters(int argc, char** argv){
       {"port",      required_argument,  0,         'p' },
       {"database",  required_argument,  0,         'd' },
       {"user",      required_argument,  0,         'u' },
-      {"pawssword", required_argument,  0,         'w' },
+      {"password",  required_argument,  0,         'w' },
       {"iteration", required_argument,  0,         'i' },
       {0,           0,                  0,          0  }
    };
@@ -76,17 +82,28 @@ int InputHandler::getParameters(int argc, char** argv){
             usage();
             return(-1);
       }
-    
+
       if(help_flag) {
          usage();
          return(-1);
       }
+   }
 
-      if(freq < 1 ) {
-         usage();
-         return(-1);
-      }
+   if(freq < 1 ) {
+      std::cout<<"Error: Frequency should be greater than 0"<<std::endl;
+      usage();
+      return(-1);
+   }
 
+   if(db_user == NULL) {
+      std::cout<<"Error: Database user name is mandatory"<<std::endl;
+      usage();
+      return(-1);
+   }
+   if(passwd == NULL) {
+      std::cout<<"Error: Password for accessing database is mandatory"<<std::endl;
+      usage();
+      return(-1);
    }
 
    return(0);
