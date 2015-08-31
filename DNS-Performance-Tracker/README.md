@@ -21,8 +21,11 @@ Top 10 domains to query:
 +---------+---------------+
 |    rank | name      	  |
 +------+------------------+
+
 |	1 | google.com	  |
+
 |	2 | facebook.com  |
+
 |	3 | youtube.com   |
 |	4 | yahoo.com 	  |
 |	5 | live.com  	  |
@@ -38,6 +41,8 @@ Top 10 domains to query:
 1. Program uses "ldns_pkt_querytime()" method to find time required to resolve the query
 2. This software use "Welford's online algorithm" to keep track of standard deviation.
 3. This program us tested on "Ubuntu 14.04.3 LTS"
+4. All times[first Query, Last Query, Query Time] are stored as number of 'miliseconds' from the epoch (i.e.Thursday, 1 January 1970)
+5. This program will create two tables 'stat' and 'timeseries'
 
 # Requirements
 You will need following libraries to compile programs,
