@@ -20,6 +20,7 @@ http://www.nlnetlabs.nl/projects/ldns/
 Top 10 domains to query:
 
 +---------+---------------+
+
 |    rank | name      	  |
 
 +------+------------------+
