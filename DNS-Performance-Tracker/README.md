@@ -18,17 +18,11 @@ b. DNS lib, use ldns:
 http://www.nlnetlabs.nl/projects/ldns/
 
 Top 10 domains to query:
-
 +---------+---------------+
-
 |    rank | name      	  |
-
 +------+------------------+
-
 |	1 | google.com	  |
-
 |	2 | facebook.com  |
-
 |	3 | youtube.com   |
 |	4 | yahoo.com 	  |
 |	5 | live.com  	  |
@@ -45,7 +39,29 @@ Top 10 domains to query:
 2. This software use "Welford's online algorithm" to keep track of standard deviation.
 3. This program us tested on "Ubuntu 14.04.3 LTS"
 4. All times[first Query, Last Query, Query Time] are stored as number of 'miliseconds' from the epoch (i.e.Thursday, 1 January 1970)
-5. This program will create two tables 'stat' and 'timeseries'
+5. This program will create two tables 'stat' and 'timeseries' as follows,
+
++--------------+---------------+------+-----+---------+-------+
+| Field        | Type          | Null | Key | Default | Extra |
++--------------+---------------+------+-----+---------+-------+
+| domain       | varchar(255)  | NO   |     | NULL    |       |
+| domain_id    | int(11)       | NO   | PRI | NULL    |       |
+| avg_q_time   | decimal(19,4) | YES  |     | NULL    |       |
+| std_dev_q    | decimal(19,4) | YES  |     | NULL    |       |
+| m2           | decimal(19,4) | YES  |     | NULL    |       |
+| q_count      | bigint(20)    | YES  |     | NULL    |       |
+| first_q_time | bigint(20)    | YES  |     | NULL    |       |
+| last_q_time  | bigint(20)    | YES  |     | NULL    |       |
++--------------+---------------+------+-----+---------+-------+
+
++------------+------------+------+-----+---------+-------+
+| Field      | Type       | Null | Key | Default | Extra |
++------------+------------+------+-----+---------+-------+
+| domain_id  | int(11)    | NO   | MUL | NULL    |       |
+| query_time | bigint(20) | NO   |     | NULL    |       |
+| latency    | int(11)    | NO   |     | NULL    |       |
++------------+------------+------+-----+---------+-------+
+
 
 # Requirements
 You will need following libraries to compile programs,
