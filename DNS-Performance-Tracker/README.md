@@ -34,4 +34,35 @@ Top 10 domains to query:
 +------+------------------+
 =================================
 
+# Implementation details
+1. Program uses "ldns_pkt_querytime()" method to find time required to resolve the query
+2. This software use "Welford's online algorithm" to keep track of standard deviation.
+3. This program us tested on "Ubuntu 14.04.3 LTS"
 
+# Requirements
+You will need following libraries to compile programs,
+a. Mysql lib, use mysql++:
+http://tangentsoft.net/mysql++/
+
+b. DNS lib, use ldns:
+http://www.nlnetlabs.nl/projects/ldns/
+
+c. boost:
+http://www.boost.org/
+
+# Compilation:
+1. Unzip the tarball 
+2. run $make
+
+# Sample run
+$./dpt --help (This will print option list) (NOTE: for password please use 'w')
+
+DNS Performance Tracker
+Usage: dpt [OPTIONS]
+         -f, --frequency        Frequency of DNS Query [per second][Default: 10]
+         -s, --server           Address of mysql database server [Default: localhost]
+         -p, --port             Port number of mysql database server [Default: 3306]
+         -d, --database         Mysql database name [Default: DNSPerformance]
+         -u, --user             User name for accessing mysql database [Mandatory]
+         -w, --password         Password for accessing mysql database [Mandatory]
+         -i, --iteration        Maximum number of iterations [default: infinite iterations)

@@ -69,12 +69,14 @@ void StatManager::recordQueryStat(std::string &url, int id){
       }
       else{
          if(cur_time > last_q_time){
-            if(!dbm->updateStat(id, avg, std_dev, m2, count, first_q_time, cur_time)){
+            if(!dbm->updateStat(id, avg, std_dev, m2, count, first_q_time, 
+                                                               cur_time)){
                return;
             }
          }
          else{
-            if(!dbm->updateStat(id, avg, std_dev, m2, count, first_q_time, last_q_time)){
+            if(!dbm->updateStat(id, avg, std_dev, m2, count, first_q_time, 
+                                                            last_q_time)){
                return;
             }
          }
@@ -107,7 +109,6 @@ void StatManager::run(unsigned int freq){
    unsigned int wait_time = (1000000/freq); // microseconds
 
    while(iter_rem--){
-      std::cout<<"-"<<iter_rem<<"-";
       boost::thread(boost::bind(&StatManager::runIteration, this)).detach();
       usleep(wait_time);
    }
@@ -115,7 +116,7 @@ void StatManager::run(unsigned int freq){
    while(no_threads != 0){
       // Waiting for all threads to finish 
       // (I know this is a short-cut, not a proper way to do it)
-      // Need to finish this today
+      // But I need to finish this today
    }
 
    std::cout<<"\nI'm Done"<<std::endl;
