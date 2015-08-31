@@ -58,11 +58,19 @@ http://www.boost.org/
 $./dpt --help (This will print option list) (NOTE: for password please use 'w')
 
 DNS Performance Tracker
+
 Usage: dpt [OPTIONS]
+
          -f, --frequency        Frequency of DNS Query [per second][Default: 10]
+
          -s, --server           Address of mysql database server [Default: localhost]
+
          -p, --port             Port number of mysql database server [Default: 3306]
+
          -d, --database         Mysql database name [Default: DNSPerformance]
+
          -u, --user             User name for accessing mysql database [Mandatory]
+
          -w, --password         Password for accessing mysql database [Mandatory]
+
          -i, --iteration        Maximum number of iterations [default: infinite iterations)
